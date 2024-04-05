@@ -20,8 +20,8 @@ services:
       - PGID=1000
       - TZ=America/Sao_Paulo
     volumes:
-      - /mnt/terachad/Manga/Library:/data
-      - /mnt/terachad/Manga/Kaizoku/config:/config
+      - ${STORAGE_PATH}/mangas/library:/data
+      - ${STORAGE_PATH}/mangas/kaizoku/config:/config
       - /tmp:/logs
     depends_on:
       kaizoku-db:
@@ -52,7 +52,7 @@ services:
     image: jvmilazz0/kavita:latest
     restart: unless-stopped
     volumes:
-      - /home/akitaonrails/kavita:/kavita/config
-      - /mnt/terachad/Manga/Library:/manga
+      - ${STORAGE_PATH}/kavita:/kavita/config
+      - ${STORAGE_PATH}/mangas/library:/manga
     ports:
       - '5000:5000'
