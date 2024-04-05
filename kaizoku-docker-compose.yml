@@ -28,11 +28,13 @@ services:
         condition: service_healthy
     ports:
       - '3000:3000'
+
   redis:
     image: redis:7-alpine
     restart: unless-stopped
     volumes:
       - redis:/data
+
   kaizoku-db:
     image: postgres:alpine
     restart: unless-stopped
@@ -48,11 +50,21 @@ services:
     volumes:
       - kaizoku-db:/var/lib/postgresql/data
 
-  kavita:
-    image: jvmilazz0/kavita:latest
+  #kavita:
+    #image: jvmilazz0/kavita:latest
+    #restart: unless-stopped
+    #volumes:
+      #- ${STORAGE_PATH}/kavita:/kavita/config
+      #- ${STORAGE_PATH}/mangas/library:/manga
+    #ports:
+      #- '5000:5000'
+
+  komga:
+    image: gotson/komga
     restart: unless-stopped
+    container_name: komga
     volumes:
-      - ${STORAGE_PATH}/kavita:/kavita/config
-      - ${STORAGE_PATH}/mangas/library:/manga
+      - ${STORAGE_PATH}/komga:/config
+      - ${STORAGE_PATH}/mangas/library:/media
     ports:
-      - '5000:5000'
+      - '5001:25600'
