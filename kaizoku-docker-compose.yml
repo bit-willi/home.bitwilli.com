@@ -68,3 +68,18 @@ services:
       - ${STORAGE_PATH}/mangas/library:/media
     ports:
       - '5001:25600'
+
+  tachidesk:
+    container_name: tachidesk
+    image: ghcr.io/suwayomi/tachidesk
+    restart: unless-stopped
+    volumes:
+      - ${STORAGE_PATH}/mangas/library/tachidesk:/home/suwayomi/.local/share/Tachidesk/downloads/mangas
+      - ${STORAGE_PATH}/mangas/tachidesk:/home/suwayomi/.local/share/Tachidesk
+    environment:
+      - DOWNLOAD_AS_CBZ=true
+      - AUTO_DOWNLOAD_CHAPTERS=true
+      - EXTENSION_REPOS=[]
+    ports:
+      - '3001:4567'
+
