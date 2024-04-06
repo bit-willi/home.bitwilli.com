@@ -8,14 +8,14 @@ services:
     restart: unless-stopped
     environment:
       - TZ=America/Sao_Paulo
-      - WEBUI_PORT=8080
+      - WEBUI_PORT=6001
       - PUID=1000
       - PGID=1000
     volumes:
       - ${HOME_PATH}/qbittorrent/config:/config
       - ${STORAGE_PATH}/downloads/torrents:/downloads
     ports:
-      - '8080:8080'
+      - '6001:6001'
       - '62609:62609'
 
   jackett:
@@ -140,7 +140,7 @@ services:
       - ${HOME_PATH}/plex/config:/config
       - ${HOME_PATH}/plex/data:/data
       - ${HOME_PATH}/plex/transcode:/transcode
-      - ${STORAGE_PATH}/videos:/media
+      - ${STORAGE_PATH}/Videos:/media
     devices:
       - /dev/dri:/dev/dri
       - /dev/bus/usb:/dev/bus/usb
