@@ -140,7 +140,7 @@ services:
       - ${HOME_PATH}/plex/config:/config
       - ${HOME_PATH}/plex/data:/data
       - ${HOME_PATH}/plex/transcode:/transcode
-      - ${STORAGE_PATH}/Videos:/media
+      - ${STORAGE_PATH}/videos:/media
     devices:
       - /dev/dri:/dev/dri
       - /dev/bus/usb:/dev/bus/usb
