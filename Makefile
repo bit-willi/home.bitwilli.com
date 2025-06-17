@@ -24,3 +24,6 @@ stop-net:
 
 logs-net:
 	docker-compose -f net-docker-compose.yml logs -f
+sleep:
+	sleep 1
+restart-net: stop-net sleep start-net

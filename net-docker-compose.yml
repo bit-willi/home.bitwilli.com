@@ -26,8 +26,8 @@ services:
       - PIHOLE_DNS_=127.0.0.1#5054
       - WEB_PORT=8053
     volumes:
-      - ${HOME_PATH}/dnsmasq.d:/etc/dnsmasq.d
-      - ${HOME_PATH}/pihole:/etc/pihole
+      - ${CONFIG_PATH}/dnsmasq.d:/etc/dnsmasq.d
+      - ${CONFIG_PATH}/pihole:/etc/pihole
     network_mode: host
     cap_add:
       - NET_RAW

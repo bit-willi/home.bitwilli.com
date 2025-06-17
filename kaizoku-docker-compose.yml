@@ -1,5 +1,3 @@
-version: '3'
-
 name: kaizoku
 
 volumes:
@@ -20,8 +18,8 @@ services:
       - PGID=1000
       - TZ=America/Sao_Paulo
     volumes:
-      - ${STORAGE_PATH}/mangas/library:/data
-      - ${STORAGE_PATH}/mangas/kaizoku/config:/config
+      - /mnt/bit/mangas/library:/data
+      - /mnt/bit/mangas/kaizoku/config:/config
       - /tmp:/logs
     depends_on:
       kaizoku-db:
@@ -64,8 +62,8 @@ services:
     restart: unless-stopped
     container_name: komga
     volumes:
-      - ${STORAGE_PATH}/komga:/config
-      - ${STORAGE_PATH}/mangas/library:/media
+      - /mnt/bit/komga:/config
+      - /mnt/bit/mangas/library:/media
     ports:
       - '5001:25600'
 
@@ -74,8 +72,8 @@ services:
     image: ghcr.io/suwayomi/tachidesk
     restart: unless-stopped
     volumes:
-      - ${STORAGE_PATH}/mangas/library/tachidesk:/home/suwayomi/.local/share/Tachidesk/downloads/mangas
-      - ${STORAGE_PATH}/mangas/tachidesk:/home/suwayomi/.local/share/Tachidesk
+      - /mnt/bit/mangas/library/tachidesk:/home/suwayomi/.local/share/Tachidesk/downloads/mangas
+      - /mnt/bit/mangas/tachidesk:/home/suwayomi/.local/share/Tachidesk
     environment:
       - DOWNLOAD_AS_CBZ=true
       - AUTO_DOWNLOAD_CHAPTERS=true
