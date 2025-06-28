@@ -1,11 +1,11 @@
 start-manga:
-	docker-compose -f kaizoku-docker-compose.yml up -d
+	docker-compose -f manga-docker-compose.yml up -d
 
 stop-manga:
-	docker-compose -f kaizoku-docker-compose.yml down
+	docker-compose -f manga-docker-compose.yml down
 
 logs-manga:
-	docker-compose -f kaizoku-docker-compose.yml logs -f
+	docker-compose -f manga-docker-compose.yml logs -f
 
 start-media:
 	docker-compose -f media-docker-compose.yml up -d
