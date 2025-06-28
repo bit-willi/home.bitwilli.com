@@ -24,6 +24,14 @@ stop-net:
 
 logs-net:
 	docker-compose -f net-docker-compose.yml logs -f
+start-utils:
+	docker-compose -f utils-docker-compose.yml up -d
+
+stop-utils:
+	docker-compose -f utils-docker-compose.yml down
+
+logs-utils:
+	docker-compose -f utils-docker-compose.yml logs -f
 sleep:
 	sleep 1
 restart-net: stop-net sleep start-net
