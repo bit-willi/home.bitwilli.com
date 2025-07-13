@@ -34,7 +34,7 @@ services:
       - redis:/data
 
   kaizoku-db:
-    image: postgres:alpine
+    image: postgres:16-alpine
     restart: unless-stopped
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U kaizoku']
@@ -71,4 +71,3 @@ services:
       - EXTENSION_REPOS=[]
     ports:
       - '3001:4567'
-
