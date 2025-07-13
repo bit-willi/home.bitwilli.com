@@ -111,6 +111,22 @@ services:
     ports:
       - '7878:7878'
 
+  readarr:
+    image: ghcr.io/linuxserver/readarr:0.4.19-nightly
+    restart: unless-stopped
+    depends_on:
+      - qbittorrent
+    environment:
+      - TZ=America/Sao_Paulo
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ${CONFIG_PATH}/readarr/appdata/config:/config
+      - ${STORAGE_PATH}/downloads/torrents:/downloads
+      - ${STORAGE_PATH}/books/readarr:/books
+    ports:
+      - '8787:8787'
+
   sonarr:
     image: ghcr.io/linuxserver/sonarr:latest
     restart: unless-stopped
