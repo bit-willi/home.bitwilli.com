@@ -1,37 +1,70 @@
-start-manga:
-	docker-compose -f manga-docker-compose.yml up -d
+SHELL := /bin/bash
+.DEFAULT_GOAL := help
+DOCKER_COMPOSE := $(shell command -v docker-compose > /dev/null && echo "docker-compose" || echo "docker compose")
+ARGS = `arg="$(filter-out $@,$(MAKECMDGOALS))" && echo $${arg:-${1}}`
 
-stop-manga:
-	docker-compose -f manga-docker-compose.yml down
+.PHONY: help
 
-logs-manga:
-	docker-compose -f manga-docker-compose.yml logs -f
+help: ## Show this help message
+	@echo "Docker - home.bitwilli.com"
+	@echo "---------------------"
+	@echo "Usage: make <command>"
+	@echo ""
+	@echo "Commands:"
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-26s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-start-media:
-	docker-compose -f media-docker-compose.yml up -d
+# Maybe - finance control
+maybe-start: ## Start maybe containers
+	docker-compose -f docker-compose/maybe-docker-compose.yml up -d
 
-stop-media:
-	docker-compose -f media-docker-compose.yml down
+maybe-stop: ## Stop maybe containers
+	docker-compose -f docker-compose/maybe-docker-compose.yml down
 
-logs-media:
-	docker-compose -f media-docker-compose.yml logs -f
+# Manga - download/read mangas
+manga-start: ## Start containers (kaizoku, komga, tachidesk)
+	docker-compose -f docker-compose/manga-docker-compose.yml up -d
 
-start-net:
-	docker-compose -f net-docker-compose.yml up -d
+manga-stop: ## Stop containers (kaizoku, komga, tachidesk)
+	docker-compose -f docker-compose/manga-docker-compose.yml down
 
-stop-net:
-	docker-compose -f net-docker-compose.yml down
+manga-logs: ## Attach to manga containers logs
+	docker-compose -f docker-compose/manga-docker-compose.yml logs -f
 
-logs-net:
-	docker-compose -f net-docker-compose.yml logs -f
-start-utils:
-	docker-compose -f utils-docker-compose.yml up -d
+# Media - download/watch movies n series
+media-start: ## Start containers (qbittorrent, jackett, bazarr, overseerr, flaresolverr, radarr, readarr, sonarr, plex)
+	docker-compose -f docker-compose/media-docker-compose.yml up -d
 
-stop-utils:
-	docker-compose -f utils-docker-compose.yml down
+media-stop: ## Start containers (qbittorrent, jackett, bazarr, overseerr, flaresolverr, radarr, readarr, sonarr, plex)
+	docker-compose -f docker-compose/media-docker-compose.yml down
 
-logs-utils:
-	docker-compose -f utils-docker-compose.yml logs -f
-sleep:
+media-logs: ## Attach to media containers logs
+	docker-compose -f docker-compose/media-docker-compose.yml logs -f
+
+# Net - DNS
+net-start: ## Start containers (cloudflared, pihole)
+	docker-compose -f docker-compose/net-docker-compose.yml up -d
+
+net-stop: ## Stop containers (cloudflared, pihole)
+	docker-compose -f docker-compose/net-docker-compose.yml down
+
+net-logs: ## Attach to media containers logs
+	docker-compose -f docker-compose/net-docker-compose.yml logs -f
+
+# Utils - general tools
+utils-start: ## Start containers (portainer, watchtower, vaultwarden)
+	docker-compose -f docker-compose/utils-docker-compose.yml up -d
+
+utils-stop: ## Stop containers (portainer, watchtower, vaultwarden)
+	docker-compose -f docker-compose/utils-docker-compose.yml down
+
+utils-logs: ## Attach to utils containers logs
+	docker-compose -f docker-compose/utils-docker-compose.yml logs -f
+
+net-restart: ## Restart net containers
+	make stop-net 
+	make sleep 
+	make start-net
+
+# Utils - global usable targes
+sleep: # Sleep for 1 sec
 	sleep 1
-restart-net: stop-net sleep start-net
