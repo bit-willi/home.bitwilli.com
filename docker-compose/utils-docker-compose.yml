@@ -4,8 +4,7 @@ name: 'utils'
 
 volumes:
   portainer_data:
-  outline_postgres_data:
-  outline_redis_data:
+  joplin_postgres_data:
 
 services:
   portainer:
@@ -36,39 +35,3 @@ services:
       - ${STORAGE_PATH}/vault:/data
     ports:
       - '9001:80'
-
-  outline_postgres:
-    image: postgres:15
-    restart: always
-    environment:
-      POSTGRES_USER: outline
-      POSTGRES_PASSWORD: outlinepass
-      POSTGRES_DB: outline
-    volumes:
-      - outline_postgres_data:/var/lib/postgresql/data
-
-  outline_redis:
-    image: redis:7
-    restart: always
-    volumes:
-      - outline_redis_data:/data
-
-  outline:
-    image: outlinewiki/outline
-    restart: always
-    depends_on:
-      - outline_postgres
-      - outline_redis
-    ports:
-      - "3004:3000"
-    command: sh -c "yarn start --env=production-ssl-disabled --net=host"
-    environment:
-      PGSSLMODE: disable
-      HOST: 0.0.0.0
-      DATABASE_URL: postgres://outline:outlinepass@outline_postgres:5432/outline
-      REDIS_URL: redis://outline_redis:6379
-      SECRET_KEY: ${OUTLINE_SECRET_KEY}
-      UTILS_SECRET: ${OUTLINE_SECRET_KEY}
-      FORCE_HTTPS: false
-      URL: http://0.0.0.0:3000
-
