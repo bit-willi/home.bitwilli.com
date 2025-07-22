@@ -20,6 +20,12 @@ maybe-start: ## Start maybe containers
 maybe-stop: ## Stop maybe containers
 	docker-compose -f docker-compose/maybe-docker-compose.yml down
 
+maybe-logs: ## Attach to maybe containers logs
+	docker-compose -f docker-compose/maybe-docker-compose.yml logs -f
+
+maybe-recurrency: ## Run the recurrency script in the maybe database container.
+	docker exec -it maybe-db psql -U maybe -d maybe -f /mods/maybe/recurrency/create_recurrencies.sql
+
 # Manga - download/read mangas
 manga-start: ## Start containers (kaizoku, komga, tachidesk)
 	docker-compose -f docker-compose/manga-docker-compose.yml up -d
@@ -61,8 +67,8 @@ utils-logs: ## Attach to utils containers logs
 	docker-compose -f docker-compose/utils-docker-compose.yml logs -f
 
 net-restart: ## Restart net containers
-	make stop-net 
-	make sleep 
+	make stop-net
+	make sleep
 	make start-net
 
 # Utils - global usable targes
