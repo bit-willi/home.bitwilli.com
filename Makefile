@@ -24,7 +24,7 @@ maybe-logs: ## Attach to maybe containers logs
 	docker-compose -f docker-compose/maybe-docker-compose.yml logs -f
 
 maybe-recurrency: ## Run the recurrency script in the maybe database container.
-	docker exec -it maybe-db psql -U maybe -d maybe -f /mods/maybe/recurrency/create_recurrencies.sql
+	cat mods/maybe/recurrency/create_recurrencies.sql | docker exec -i docker-compose-db-1 psql -U maybe_user -d maybe_production
 
 # Manga - download/read mangas
 manga-start: ## Start containers (kaizoku, komga, tachidesk)
