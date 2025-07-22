@@ -1,0 +1,7 @@
+[Unit]
+Description=Run maybe-recurrency
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/bit/docker/home.bitwilli.com
+ExecStart=/usr/bin/make maybe-recurrency

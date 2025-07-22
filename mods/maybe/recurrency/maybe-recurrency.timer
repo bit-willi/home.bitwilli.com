@@ -1,0 +1,10 @@
+[Unit]
+Description=Run maybe-recurrency daily at noon
+
+[Timer]
+OnCalendar=*-*-01 12:00:00
+Persistent=true
+Unit=maybe-recurrency.service
+
+[Install]
+WantedBy=default.target
