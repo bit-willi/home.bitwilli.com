@@ -74,6 +74,16 @@ net-restart: ## Restart net containers
 	make sleep
 	make start-net
 
+# N8N - ai automation
+n8n-start: ## Start containers (n8n)
+	$(DOCKER_COMPOSE) -f docker-compose/n8n-docker-compose.yml up -d
+
+n8n-stop: ## Stop containers (n8n)
+	$(DOCKER_COMPOSE) -f docker-compose/n8n-docker-compose.yml down
+
+n8n-logs: ## Attach to n8n container logs
+	$(DOCKER_COMPOSE) -f docker-compose/n8n-docker-compose.yml logs -f
+
 # Utils - global usable targes
 sleep: # Sleep for 1 sec
 	sleep 1
