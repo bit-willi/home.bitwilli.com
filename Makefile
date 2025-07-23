@@ -23,6 +23,9 @@ maybe-stop: ## Stop maybe containers
 maybe-logs: ## Attach to maybe containers logs
 	$(DOCKER_COMPOSE) -f docker-compose/maybe-docker-compose.yml logs -f
 
+maybe-backup: ## Backup maybe database
+	docker exec -t docker-compose-db-1 pg_dump -U maybe_user maybe_production > backup/maybe_backup.sql
+
 maybe-recurrency: ## Run the recurrency script in the maybe database container.
 	cat mods/maybe/recurrency/create_recurrencies.sql | docker exec -i docker-compose-db-1 psql -U maybe_user -d maybe_production
 
