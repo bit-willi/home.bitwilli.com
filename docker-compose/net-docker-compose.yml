@@ -1,33 +1,36 @@
-version: '3'
-
-name: 'net'
+networks:
+  pihole_network:
+    driver: bridge
 
 services:
   cloudflared:
     image: visibilityspots/cloudflared:latest
     restart: unless-stopped
     environment:
-      - UPSTREAM1=https://1.1.1.1/dns-query
-      - UPSTREAM2=https://1.0.0.1/dns-query
-      - PORT=5054
-      - ADDRESS=0.0.0.0
-      - METRICS=127.0.0.1:8088
-    network_mode: host
+      UPSTREAM1: https://1.1.1.1/dns-query
+      UPSTREAM2: https://1.0.0.1/dns-query
+      PORT: 5054
+      ADDRESS: 0.0.0.0
+    networks:
+      - pihole_network
 
   pihole:
     image: pihole/pihole:latest
     restart: unless-stopped
     depends_on:
       - cloudflared
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8053:80/tcp"
     environment:
-      - DNSMASQ_USER=pihole
-      - WEBPASSWORD=ekCiN8!8b8ciNt2YmFAER
-      - TZ=America/Sao_Paulo
-      - PIHOLE_DNS_=127.0.0.1#5054
-      - WEB_PORT=8053
+      TZ: America/Sao_Paulo
+      FTLCONF_webserver_api_password: ekCiN8!8b8ciNt2YmFAER
+      FTLCONF_dns_upstreams: cloudflared#5054
     volumes:
-      - ${CONFIG_PATH}/dnsmasq.d:/etc/dnsmasq.d
       - ${CONFIG_PATH}/pihole:/etc/pihole
-    network_mode: host
+      - ${CONFIG_PATH}/dnsmasq.d:/etc/dnsmasq.d
     cap_add:
-      - NET_RAW
+      - SYS_NICE
+    networks:
+      - pihole_network
