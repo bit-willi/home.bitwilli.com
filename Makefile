@@ -84,6 +84,19 @@ n8n-stop: ## Stop containers (n8n)
 n8n-logs: ## Attach to n8n container logs
 	$(DOCKER_COMPOSE) -f docker-compose/n8n-docker-compose.yml logs -f
 
+# Wger - finance control
+wger-start: ## Start wger containers
+	$(DOCKER_COMPOSE) -f docker-compose/wger-docker-compose.yml up -d
+
+wger-stop: ## Stop wger containers
+	$(DOCKER_COMPOSE) -f docker-compose/wger-docker-compose.yml down
+
+wger-logs: ## Attach to wger containers logs
+	$(DOCKER_COMPOSE) -f docker-compose/wger-docker-compose.yml logs -f
+
+wger-backup: ## Backup wger database
+	docker exec -t docker-compose-db-1 pg_dump -U wger_user wger_production > backup/wger_backup.sql
+
 # Utils - global usable targes
 sleep: # Sleep for 1 sec
 	sleep 1
