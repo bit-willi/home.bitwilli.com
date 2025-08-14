@@ -95,7 +95,7 @@ wger-logs: ## Attach to wger containers logs
 	$(DOCKER_COMPOSE) -f docker-compose/wger-docker-compose.yml logs -f
 
 wger-backup: ## Backup wger database
-	docker exec -t docker-compose-db-1 pg_dump -U wger_user wger_production > backup/wger_backup.sql
+	docker exec -t docker-compose-db-1 pg_dump -U wger wger > backup/wger_backup.sql
 
 # Utils - global usable targes
 sleep: # Sleep for 1 sec
